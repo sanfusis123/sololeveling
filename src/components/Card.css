@@ -1,0 +1,399 @@
+/* iPhone-inspired Glassmorphic Card Styles */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  padding: var(--spacing-lg);
+  position: relative;
+  transition: all var(--transition-smooth);
+  overflow: hidden;
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.37),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.2);
+  transform-style: preserve-3d;
+  transform: translateZ(0);
+}
+
+/* Glass reflection effect */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    transparent 100%
+  );
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
+}
+
+/* Dynamic glow effect */
+.card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  pointer-events: none;
+}
+
+.card-hover {
+  cursor: pointer;
+}
+
+/* 3D hover effect */
+.card-hover:hover {
+  transform: 
+    perspective(1000px) 
+    rotateX(var(--rotate-x, 0deg)) 
+    rotateY(var(--rotate-y, 0deg)) 
+    translateZ(10px) 
+    scale(1.02);
+  box-shadow: 
+    0 20px 40px 0 rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(123, 104, 238, 0.2),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.3),
+    inset 0 -20px 40px -20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.card-hover:hover::before {
+  opacity: 0.8;
+}
+
+.card-hover:hover::after {
+  opacity: 1;
+}
+
+/* Pressed state */
+.card-hover:active {
+  transform: perspective(1000px) scale(0.98);
+  transition: transform 100ms ease;
+}
+
+/* Vibrant Gradient Cards with Glass */
+.card-gradient-primary {
+  background: 
+    linear-gradient(135deg, rgba(0, 122, 255, 0.15) 0%, rgba(88, 86, 214, 0.15) 100%),
+    rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 122, 255, 0.4);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 122, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-gradient-success {
+  background: 
+    linear-gradient(135deg, rgba(52, 199, 89, 0.15) 0%, rgba(48, 209, 88, 0.15) 100%),
+    rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(52, 199, 89, 0.4);
+  box-shadow: 
+    0 8px 32px 0 rgba(52, 199, 89, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-gradient-warning {
+  background: 
+    linear-gradient(135deg, rgba(255, 149, 0, 0.15) 0%, rgba(255, 204, 0, 0.15) 100%),
+    rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 149, 0, 0.4);
+  box-shadow: 
+    0 8px 32px 0 rgba(255, 149, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-gradient-danger {
+  background: 
+    linear-gradient(135deg, rgba(255, 59, 48, 0.15) 0%, rgba(255, 69, 58, 0.15) 100%),
+    rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 59, 48, 0.4);
+  box-shadow: 
+    0 8px 32px 0 rgba(255, 59, 48, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-gradient-info {
+  background: 
+    linear-gradient(135deg, rgba(90, 200, 250, 0.15) 0%, rgba(0, 122, 255, 0.15) 100%),
+    rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(90, 200, 250, 0.4);
+  box-shadow: 
+    0 8px 32px 0 rgba(90, 200, 250, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Special gradient hover effects */
+.card-gradient-primary:hover,
+.card-gradient-success:hover,
+.card-gradient-warning:hover,
+.card-gradient-danger:hover,
+.card-gradient-info:hover {
+  filter: brightness(1.1) contrast(1.05);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .9;
+  }
+}
+
+/* Card Icon Animation */
+.card-icon {
+  position: absolute;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  font-size: 3rem;
+  opacity: 0.1;
+  transition: all var(--transition-spring);
+  z-index: 0;
+  transform: rotate(-10deg);
+}
+
+.card:hover .card-icon {
+  opacity: 0.2;
+  transform: rotate(0deg) scale(1.2);
+  filter: blur(2px);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+  position: relative;
+  z-index: 1;
+}
+
+.card-header-content {
+  flex: 1;
+}
+
+.card-header-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-left: var(--spacing-md);
+}
+
+/* Card Title with Gradient */
+.card-title-wrapper {
+  margin-bottom: var(--spacing-md);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  background: linear-gradient(
+    to right,
+    var(--text-primary),
+    rgba(255, 255, 255, 0.9)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Card Body */
+.card-body {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+  position: relative;
+  z-index: 1;
+}
+
+.card-body p {
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.card-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+/* Card Meta Pills */
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+  position: relative;
+  z-index: 1;
+}
+
+.card-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 100px;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-meta-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.card-meta-item.clickable:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.card-meta-item.clickable:hover::before {
+  opacity: 1;
+}
+
+.card-meta-item.clickable:active {
+  transform: scale(0.95);
+}
+
+.card-meta-icon {
+  font-size: 0.875rem;
+  filter: saturate(1.5);
+}
+
+/* Meta Item Type Colors */
+.card-meta-item.primary {
+  background: rgba(0, 122, 255, 0.15);
+  color: #5AC8FA;
+  border-color: rgba(0, 122, 255, 0.3);
+}
+
+.card-meta-item.success {
+  background: rgba(52, 199, 89, 0.15);
+  color: #34C759;
+  border-color: rgba(52, 199, 89, 0.3);
+}
+
+.card-meta-item.warning {
+  background: rgba(255, 149, 0, 0.15);
+  color: #FF9500;
+  border-color: rgba(255, 149, 0, 0.3);
+}
+
+.card-meta-item.danger {
+  background: rgba(255, 59, 48, 0.15);
+  color: #FF3B30;
+  border-color: rgba(255, 59, 48, 0.3);
+}
+
+.card-meta-item.error {
+  background: rgba(255, 69, 58, 0.15);
+  color: #FF453A;
+  border-color: rgba(255, 69, 58, 0.3);
+}
+
+.card-meta-item.info {
+  background: rgba(90, 200, 250, 0.15);
+  color: #5AC8FA;
+  border-color: rgba(90, 200, 250, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    padding: var(--spacing-md);
+    border-radius: 16px;
+  }
+  
+  .card-title {
+    font-size: 1.125rem;
+  }
+  
+  .card-icon {
+    font-size: 2rem;
+  }
+}
+
+/* Animation for card entrance */
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card {
+  animation: cardEntrance 0.5s var(--transition-smooth) backwards;
+}
+
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.2s; }
+.card:nth-child(5) { animation-delay: 0.25s; }
+.card:nth-child(6) { animation-delay: 0.3s; }

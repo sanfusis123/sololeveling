@@ -1,0 +1,455 @@
+.diary-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 2px;
+}
+
+.view-btn {
+  background: none;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-sm);
+  font-size: 1.25rem;
+}
+
+.view-btn:hover {
+  color: var(--text-primary);
+}
+
+.view-btn.active {
+  background-color: var(--bg-elevated);
+  color: var(--accent-primary);
+}
+
+/* Search and Controls */
+.diary-controls {
+  margin-bottom: var(--spacing-xl);
+}
+
+.search-form {
+  margin-bottom: var(--spacing-md);
+}
+
+.search-input-wrapper {
+  position: relative;
+  max-width: 500px;
+}
+
+.search-input-wrapper span {
+  position: absolute;
+  left: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+.search-input {
+  padding-left: calc(var(--spacing-md) * 3);
+  width: 100%;
+}
+
+/* Mood Filter */
+.mood-filter {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.mood-filter-btn {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.mood-filter-btn:hover {
+  background-color: var(--bg-elevated);
+}
+
+.mood-filter-btn.active {
+  background-color: var(--bg-elevated);
+  border-color: currentColor;
+  font-weight: 600;
+}
+
+/* Mood Stats */
+.mood-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.stat-emoji {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Calendar Container */
+.calendar-container {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.calendar-nav-btn {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.calendar-nav-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+.calendar-month {
+  font-size: 1.5rem;
+  margin: 0;
+  min-width: 200px;
+  text-align: center;
+}
+
+/* Diary Calendar Grid */
+.diary-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background-color: var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.calendar-day-label {
+  background-color: var(--bg-elevated);
+  padding: var(--spacing-md);
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.diary-calendar-day {
+  background-color: var(--bg-secondary);
+  min-height: 100px;
+  padding: var(--spacing-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.diary-calendar-day:hover {
+  background-color: var(--bg-hover);
+}
+
+.diary-calendar-day.outside-month {
+  opacity: 0.5;
+}
+
+.diary-calendar-day.today {
+  background-color: var(--bg-elevated);
+}
+
+.diary-calendar-day.today .day-number {
+  color: var(--accent-primary);
+  font-weight: 700;
+}
+
+.diary-calendar-day.selected {
+  box-shadow: inset 0 0 0 2px var(--accent-primary);
+}
+
+.diary-calendar-day.has-entry {
+  background-color: var(--bg-elevated);
+  border: 2px solid var(--accent-success);
+}
+
+.day-number {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.day-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.day-mood {
+  font-size: 1.5rem;
+}
+
+.day-title {
+  font-size: 0.7rem;
+  text-align: center;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* List View */
+.entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.entry-card {
+  padding: var(--spacing-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.entry-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.entry-date {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.entry-mood {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-weight: 600;
+}
+
+.entry-title {
+  font-size: 1.25rem;
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+.entry-content-preview {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+}
+
+.entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.75rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+}
+
+.entry-stats {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+/* Modal */
+.modal-large {
+  max-width: 700px;
+}
+
+/* Mood Selector */
+.mood-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.mood-btn {
+  background-color: var(--bg-elevated);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.mood-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+.mood-emoji {
+  font-size: 2rem;
+}
+
+.mood-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Diary Content */
+.diary-content {
+  font-family: var(--font-default);
+  line-height: 1.8;
+}
+
+/* Gratitude List */
+.label-subtitle {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: normal;
+  margin-top: var(--spacing-xs);
+}
+
+.gratitude-input {
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--text-tertiary);
+}
+
+.empty-state h3 {
+  font-size: 1.25rem;
+  margin: var(--spacing-md) 0;
+  color: var(--text-secondary);
+}
+
+.empty-state p {
+  margin-bottom: var(--spacing-lg);
+}
+
+.empty-state > span {
+  font-size: 4rem;
+  opacity: 0.5;
+}
+
+/* Loading State */
+.loading-state {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .mood-filter {
+    flex-direction: column;
+  }
+
+  .mood-filter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .mood-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .diary-calendar-day {
+    min-height: 80px;
+  }
+
+  .day-mood {
+    font-size: 1.25rem;
+  }
+
+  .mood-selector {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .mood-selector {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .calendar-nav {
+    gap: var(--spacing-md);
+  }
+
+  .calendar-month {
+    font-size: 1.25rem;
+    min-width: 150px;
+  }
+}
