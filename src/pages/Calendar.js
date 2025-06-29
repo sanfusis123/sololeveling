@@ -22,10 +22,13 @@ const Calendar = () => {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState(null);
 
   useEffect(() => {
     fetchEventsAndData();
   }, [currentDate]); // eslint-disable-line react-hooks/exhaustive-deps
+
 
   const fetchEventsAndData = async () => {
     try {
@@ -60,6 +63,22 @@ const Calendar = () => {
       toast.error('Failed to fetch data');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteEvent = async () => {
+    if (!eventToDelete?.id) return;
+    
+    try {
+      await calendarService.deleteEvent(eventToDelete.id);
+      toast.success('Event deleted successfully');
+      setShowDeleteConfirm(false);
+      setShowEventModal(false);
+      setEventToDelete(null);
+      refreshEvents();
+    } catch (error) {
+      toast.error('Failed to delete event');
+      setShowDeleteConfirm(false);
     }
   };
 
@@ -404,19 +423,119 @@ const Calendar = () => {
         <EventModal
           event={selectedEvent}
           selectedDate={selectedDate}
-          onClose={() => setShowEventModal(false)}
+          onClose={() => {
+            if (!showDeleteConfirm) {
+              setShowEventModal(false);
+              setShowDeleteConfirm(false);
+            }
+          }}
           onSave={() => {
             setShowEventModal(false);
             refreshEvents();
           }}
+          showDeleteConfirm={showDeleteConfirm}
+          setShowDeleteConfirm={setShowDeleteConfirm}
+          setEventToDelete={setEventToDelete}
         />
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <>
+          {/* Backdrop */}
+          <div 
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              backdropFilter: 'blur(8px)',
+              zIndex: 99999
+            }}
+            onClick={() => {
+              setShowDeleteConfirm(false);
+              setEventToDelete(null);
+            }}
+          />
+          
+          {/* Modal */}
+          <div 
+            className="modal-content"
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 100000,
+              maxWidth: '400px',
+              width: '90%',
+              background: 'rgba(30, 30, 30, 0.95)',
+              backdropFilter: 'blur(40px) saturate(200%)',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              borderRadius: '24px',
+              boxShadow: '0 20px 60px 0 rgba(0, 0, 0, 0.6), inset 0 0 0 0.5px rgba(255, 255, 255, 0.2)',
+              animation: 'modalSlideIn 0.2s ease-out'
+            }}
+          >
+            <div className="modal-header" style={{ borderBottom: 'none', paddingBottom: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span style={{ fontSize: '24px' }}>⚠️</span>
+                <h2 style={{ margin: 0, color: 'white' }}>Delete Event</h2>
+              </div>
+            </div>
+            <div className="modal-body" style={{ padding: '24px', textAlign: 'center' }}>
+              <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '16px' }}>
+                Are you sure you want to delete
+              </p>
+              <div style={{ 
+                background: 'rgba(255, 255, 255, 0.1)', 
+                backdropFilter: 'blur(10px)',
+                padding: '16px 24px', 
+                borderRadius: '16px',
+                marginBottom: '20px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+              }}>
+                <p style={{ fontSize: '20px', fontWeight: '600', color: 'white', margin: 0 }}>
+                  {eventToDelete?.title || 'this event'}
+                </p>
+              </div>
+              <p style={{ fontSize: '14px', color: '#ff6b6b', margin: 0, fontWeight: '500' }}>
+                ⚠️ This action cannot be undone
+              </p>
+            </div>
+            <div className="modal-actions" style={{ justifyContent: 'center', gap: '12px' }}>
+              <button 
+                type="button" 
+                className="btn btn-secondary" 
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                  setEventToDelete(null);
+                }}
+                style={{ minWidth: '120px' }}
+              >
+                Cancel
+              </button>
+              <button 
+                type="button" 
+                className="btn btn-danger"
+                onClick={handleDeleteEvent}
+                style={{ minWidth: '120px' }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
 };
 
 // Event Modal Component
-const EventModal = ({ event, selectedDate, onClose, onSave }) => {
+const EventModal = ({ event, selectedDate, onClose, onSave, showDeleteConfirm, setShowDeleteConfirm, setEventToDelete }) => {
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
@@ -536,9 +655,10 @@ const EventModal = ({ event, selectedDate, onClose, onSave }) => {
 
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <h2>{event?.id ? 'Edit Event' : 'Create Event'}</h2>
+    <>
+      <div className="modal-overlay" onClick={() => !showDeleteConfirm && onClose()}>
+        <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <h2>{event?.id ? 'Edit Event' : 'Create Event'}</h2>
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -695,17 +815,38 @@ const EventModal = ({ event, selectedDate, onClose, onSave }) => {
             </div>
           </div>
 
-          <div className="modal-actions">
-            <button type="button" className="btn btn-secondary" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-primary">
-              {event?.id ? 'Update' : 'Create'} Event
-            </button>
+          <div className="modal-actions" style={{ 
+            display: 'flex', 
+            gap: '12px', 
+            justifyContent: event?.id ? 'space-between' : 'flex-end' 
+          }}>
+            {event?.id && (
+              <button 
+                type="button" 
+                className="btn btn-danger"
+                onClick={() => {
+                  setEventToDelete({ id: event.id, title: formData.title });
+                  setShowDeleteConfirm(true);
+                }}
+                style={{ flex: '0 0 auto' }}
+              >
+                Delete
+              </button>
+            )}
+            <div style={{ display: 'flex', gap: '12px', flex: '1', justifyContent: 'flex-end' }}>
+              <button type="button" className="btn btn-secondary" onClick={() => !showDeleteConfirm && onClose()}>
+                Cancel
+              </button>
+              <button type="submit" className="btn btn-primary">
+                {event?.id ? 'Update' : 'Create'} Event
+              </button>
+            </div>
           </div>
         </form>
       </div>
     </div>
+
+    </>
   );
 };
 
