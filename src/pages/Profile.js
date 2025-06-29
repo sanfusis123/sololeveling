@@ -50,7 +50,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchUserStats();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // Update form data when user data changes
@@ -106,7 +106,7 @@ const Profile = () => {
         diaryEntries: diaryResponse.data?.length || 0
       });
     } catch (error) {
-      console.error('Error fetching stats:', error);
+      // console.error('Error fetching stats:', error);
     } finally {
       setLoading(false);
     }
@@ -130,7 +130,7 @@ const Profile = () => {
         setEditMode(false);
       }
     } catch (error) {
-      console.error('Profile update error:', error);
+      // console.error('Profile update error:', error);
     }
   };
 
@@ -243,7 +243,7 @@ const Profile = () => {
       
       return streak;
     } catch (error) {
-      console.error('Error calculating streak:', error);
+      // console.error('Error calculating streak:', error);
       return 0;
     }
   };

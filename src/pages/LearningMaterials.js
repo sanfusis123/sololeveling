@@ -49,7 +49,7 @@ const LearningMaterials = () => {
       setMaterials(response.data || []);
     } catch (error) {
       toast.error('Failed to fetch materials');
-      console.error('Error fetching materials:', error);
+      // console.error('Error fetching materials:', error);
     } finally {
       setLoading(false);
     }

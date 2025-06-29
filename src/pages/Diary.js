@@ -51,18 +51,18 @@ const Diary = () => {
       const response = await diaryService.getEntries({});
       
       const entriesData = response.data || [];
-      console.log('Fetched all entries:', entriesData.length, 'entries');
+      // console.log('Fetched all entries:', entriesData.length, 'entries');
       // Log to verify we're using the date field correctly
       entriesData.forEach(entry => {
-        console.log('Entry dates:', {
-          date: entry.date,  // The diary date (when it was written FOR)
-          created_at: entry.created_at  // When the entry was created in the system
-        });
+        // console.log('Entry dates:', {
+        //   date: entry.date,  // The diary date (when it was written FOR)
+        //   created_at: entry.created_at  // When the entry was created in the system
+        // });
       });
       setEntries(entriesData);
     } catch (error) {
       toast.error('Failed to fetch diary entries');
-      console.error('Error fetching entries:', error);
+      // console.error('Error fetching entries:', error);
     } finally {
       setLoading(false);
     }
@@ -118,14 +118,14 @@ const Diary = () => {
           entryDate = parseISO(entry.date + 'T00:00:00');
         }
         // Using the 'date' field (diary date), NOT 'created_at'
-        console.log('Filtering entry:', {
-          date: entry.date,
-          parsedDate: format(entryDate, 'yyyy-MM-dd'),
-          inRange: entryDate >= start && entryDate <= end
-        });
+        // console.log('Filtering entry:', {
+        //   date: entry.date,
+        //   parsedDate: format(entryDate, 'yyyy-MM-dd'),
+        //   inRange: entryDate >= start && entryDate <= end
+        // });
         return entryDate >= start && entryDate <= end;
       } catch (error) {
-        console.error('Error parsing entry date:', entry.date, error);
+        // console.error('Error parsing entry date:', entry.date, error);
         return false;
       }
     });
@@ -145,15 +145,15 @@ const Diary = () => {
         const isSame = isSameDay(entryDate, day);
         // Using the 'date' field (when diary was written FOR), NOT 'created_at'
         if (isSame) {
-          console.log('Found entry for day:', {
-            searchDay: format(day, 'yyyy-MM-dd'),
-            entryDate: entry.date,
-            created_at: entry.created_at
-          });
+          // console.log('Found entry for day:', {
+          //   searchDay: format(day, 'yyyy-MM-dd'),
+          //   entryDate: entry.date,
+          //   created_at: entry.created_at
+          // });
         }
         return isSame;
       } catch (error) {
-        console.error('Error parsing date:', entry.date, error);
+        // console.error('Error parsing date:', entry.date, error);
         return false;
       }
     });
@@ -161,7 +161,7 @@ const Diary = () => {
 
   const handleCreateEntry = (date = selectedDate) => {
     const existingEntry = getEntryForDay(date);
-    console.log('Checking for existing entry on date:', format(date, 'yyyy-MM-dd'), 'Found:', existingEntry);
+    // console.log('Checking for existing entry on date:', format(date, 'yyyy-MM-dd'), 'Found:', existingEntry);
     if (existingEntry) {
       // Edit existing entry
       setSelectedEntry(existingEntry);
@@ -451,7 +451,7 @@ const EntryModal = ({ entry, onClose, onSave }) => {
       } else {
         toast.error('Failed to save entry');
       }
-      console.error('Error saving entry:', error);
+      // console.error('Error saving entry:', error);
     }
   };
 

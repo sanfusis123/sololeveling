@@ -52,7 +52,7 @@ const Calendar = () => {
         skillsService.getSkills()
       ]);
       
-      console.log('Fetched events:', eventsRes.data);
+      // console.log('Fetched events:', eventsRes.data);
       setEvents(eventsRes.data);
       setProjects(projectsRes.data || []);
       setSkills(skillsRes.data || []);
@@ -86,9 +86,9 @@ const Calendar = () => {
       });
       
       setEvents(response.data || []);
-      console.log('Refreshed events:', response.data);
+      // console.log('Refreshed events:', response.data);
     } catch (error) {
-      console.error('Error fetching events:', error);
+      // console.error('Error fetching events:', error);
       toast.error('Failed to fetch events');
       setEvents([]);
     } finally {
@@ -171,7 +171,7 @@ const Calendar = () => {
       try {
         await calendarService.createEvent(event);
       } catch (error) {
-        console.error('Error creating sample event:', error);
+        // console.error('Error creating sample event:', error);
       }
     }
     
@@ -474,7 +474,7 @@ const EventModal = ({ event, selectedDate, onClose, onSave }) => {
       setProjects(projectsRes.data || []);
       setSkills(skillsRes.data || []);
     } catch (error) {
-      console.error('Error fetching projects/skills:', error);
+      // console.error('Error fetching projects/skills:', error);
     } finally {
       setLoadingData(false);
     }
@@ -510,27 +510,27 @@ const EventModal = ({ event, selectedDate, onClose, onSave }) => {
         end_time: toLocalISOString(formData.end_time)
       };
       
-      console.log('Saving event with times:', {
-        start: eventData.start_time,
-        end: eventData.end_time,
-        startLocal: formData.start_time.toString(),
-        endLocal: formData.end_time.toString(),
-        startHours: formData.start_time.getHours(),
-        endHours: formData.end_time.getHours()
-      });
+      // console.log('Saving event with times:', {
+      //   start: eventData.start_time,
+      //   end: eventData.end_time,
+      //   startLocal: formData.start_time.toString(),
+      //   endLocal: formData.end_time.toString(),
+      //   startHours: formData.start_time.getHours(),
+      //   endHours: formData.end_time.getHours()
+      // });
       
       if (event?.id) {
         await calendarService.updateEvent(event.id, eventData);
         toast.success('Event updated successfully');
       } else {
         const response = await calendarService.createEvent(eventData);
-        console.log('Event created response:', response.data);
+        // console.log('Event created response:', response.data);
         toast.success('Event created successfully');
       }
       onSave();
     } catch (error) {
       toast.error('Failed to save event');
-      console.error('Error saving event:', error);
+      // console.error('Error saving event:', error);
     }
   };
 

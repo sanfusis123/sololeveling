@@ -66,7 +66,7 @@ const Flashcards = () => {
       }
     } catch (error) {
       toast.error('Failed to fetch decks');
-      console.error('Error fetching decks:', error);
+      // console.error('Error fetching decks:', error);
     } finally {
       setLoading(false);
     }
@@ -74,7 +74,7 @@ const Flashcards = () => {
 
   const fetchCards = async () => {
     if (!selectedDeck || !selectedDeck.id) {
-      console.warn('No valid deck selected for fetching cards');
+      // console.warn('No valid deck selected for fetching cards');
       return;
     }
     try {
@@ -82,20 +82,20 @@ const Flashcards = () => {
       setCards(response.data || []);
     } catch (error) {
       toast.error('Failed to fetch cards');
-      console.error('Error fetching cards:', error);
+      // console.error('Error fetching cards:', error);
     }
   };
 
   const fetchDueCards = async () => {
     if (!selectedDeck || !selectedDeck.id) {
-      console.warn('No valid deck selected for fetching due cards');
+      // console.warn('No valid deck selected for fetching due cards');
       return;
     }
     try {
       const response = await flashcardsService.getDueCards(selectedDeck.id);
       setDueCards(response.data || []);
     } catch (error) {
-      console.error('Error fetching due cards:', error);
+      // console.error('Error fetching due cards:', error);
     }
   };
 
@@ -117,7 +117,7 @@ const Flashcards = () => {
 
   const handleDeleteDeck = async (deckId) => {
     if (!deckId) {
-      console.error('No deck ID provided for deletion');
+      // console.error('No deck ID provided for deletion');
       return;
     }
     if (window.confirm('Are you sure you want to delete this deck? All cards will be deleted.')) {
@@ -128,7 +128,7 @@ const Flashcards = () => {
         fetchDecks();
       } catch (error) {
         toast.error('Failed to delete deck');
-        console.error('Error deleting deck:', error);
+        // console.error('Error deleting deck:', error);
       }
     }
   };
@@ -149,7 +149,7 @@ const Flashcards = () => {
 
   const handleDeleteCard = async (cardId) => {
     if (!cardId) {
-      console.error('No card ID provided for deletion');
+      // console.error('No card ID provided for deletion');
       return;
     }
     if (window.confirm('Are you sure you want to delete this card?')) {
@@ -160,7 +160,7 @@ const Flashcards = () => {
         fetchDueCards();
       } catch (error) {
         toast.error('Failed to delete card');
-        console.error('Error deleting card:', error);
+        // console.error('Error deleting card:', error);
       }
     }
   };
@@ -180,7 +180,7 @@ const Flashcards = () => {
       const currentCard = dueCards[currentCardIndex];
       const cardId = currentCard.id || currentCard._id;
       if (!cardId) {
-        console.error('No card ID found for review');
+        // console.error('No card ID found for review');
         return;
       }
       
@@ -205,7 +205,7 @@ const Flashcards = () => {
       }
     } catch (error) {
       toast.error('Failed to review card');
-      console.error('Error reviewing card:', error);
+      // console.error('Error reviewing card:', error);
     }
   };
 

@@ -97,7 +97,7 @@ const Dashboard = () => {
       } catch (error) {
         // 404 is expected when there's no diary entry for today
         if (error.response && error.response.status !== 404) {
-          console.error('Error fetching diary entry:', error);
+          // console.error('Error fetching diary entry:', error);
         }
       }
 
@@ -117,7 +117,7 @@ const Dashboard = () => {
       await fetchQuote();
 
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      // console.error('Error fetching dashboard data:', error);
     } finally {
       setLoading(false);
     }
@@ -185,7 +185,7 @@ const Dashboard = () => {
       setRecentActivity(activities.slice(0, 5));
       
     } catch (error) {
-      console.error('Error fetching recent activity:', error);
+      // console.error('Error fetching recent activity:', error);
     }
   };
   
@@ -252,7 +252,7 @@ const Dashboard = () => {
       
       return streak;
     } catch (error) {
-      console.error('Error calculating streak:', error);
+      // console.error('Error calculating streak:', error);
       return 0;
     }
   };
@@ -277,7 +277,7 @@ const Dashboard = () => {
         });
       }
     } catch (error) {
-      console.error('Error fetching quote:', error);
+      // console.error('Error fetching quote:', error);
     }
   };
 
@@ -483,8 +483,8 @@ const StatCard = ({ stat, gradient }) => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+    // const centerX = rect.width / 2;
+    // const centerY = rect.height / 2;
     
     const percentX = (x / rect.width) * 100;
     const percentY = (y / rect.height) * 100;

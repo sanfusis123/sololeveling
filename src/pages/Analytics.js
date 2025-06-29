@@ -82,7 +82,7 @@ const Analytics = () => {
       setProductivityData(productivityRes.data);
     } catch (error) {
       toast.error('Failed to fetch analytics data');
-      console.error('Analytics error:', error);
+      // console.error('Analytics error:', error);
     } finally {
       setLoading(false);
     }

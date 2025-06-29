@@ -1,7 +1,7 @@
 // Simple toast implementation
 const toast = {
   success: (message) => {
-    console.log('✅ Success:', message);
+    // console.log('✅ Success:', message);
     // Create a temporary div for better notifications
     const toastDiv = document.createElement('div');
     toastDiv.style.cssText = `
@@ -24,7 +24,7 @@ const toast = {
     }, 3000);
   },
   error: (message) => {
-    console.error('❌ Error:', message);
+    // console.error('❌ Error:', message);
     // Create a temporary div for better notifications
     const toastDiv = document.createElement('div');
     toastDiv.style.cssText = `
@@ -47,7 +47,7 @@ const toast = {
     }, 3000);
   },
   info: (message) => {
-    console.log('ℹ️ Info:', message);
+    // console.log('ℹ️ Info:', message);
     // Create a temporary div for better notifications
     const toastDiv = document.createElement('div');
     toastDiv.style.cssText = `

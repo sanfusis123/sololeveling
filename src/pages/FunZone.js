@@ -57,7 +57,7 @@ const FunZone = () => {
       // Log any content without likes field
       contents.forEach(content => {
         if (content.likes === undefined) {
-          console.warn('Content missing likes field:', content.id || content._id, content);
+          // console.warn('Content missing likes field:', content.id || content._id, content);
         }
       });
       setContents(contents);
@@ -69,7 +69,7 @@ const FunZone = () => {
       }
     } catch (error) {
       toast.error('Failed to fetch contents');
-      console.error('Error fetching contents:', error);
+      // console.error('Error fetching contents:', error);
     } finally {
       setLoading(false);
     }
@@ -133,7 +133,7 @@ const FunZone = () => {
       
       toast.success(response.data.liked ? 'Content liked!' : 'Like removed');
     } catch (error) {
-      console.error('Error liking content:', error);
+      // console.error('Error liking content:', error);
       toast.error('Failed to update like');
     }
   };

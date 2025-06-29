@@ -64,7 +64,7 @@ const ImprovementLog = () => {
           break;
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
@@ -587,7 +587,7 @@ const LogModal = ({ log, logType, onClose, onSave }) => {
       }
       onSave();
     } catch (error) {
-      console.error('Error saving log:', error);
+      // console.error('Error saving log:', error);
       toast.error('Failed to save log');
     }
   };

@@ -24,7 +24,6 @@ const Admin = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // all, active, inactive
-  const [selectedUser, setSelectedUser] = useState(null);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordUserId, setPasswordUserId] = useState(null);
   const [newPassword, setNewPassword] = useState('');
@@ -50,7 +49,7 @@ const Admin = () => {
       const statsResponse = await adminService.getStats();
       setStats(statsResponse.data);
     } catch (error) {
-      console.error('Error fetching admin data:', error);
+      // console.error('Error fetching admin data:', error);
       toast.error('Failed to load admin data');
     } finally {
       setLoading(false);
