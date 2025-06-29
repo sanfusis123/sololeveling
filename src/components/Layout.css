@@ -355,6 +355,56 @@
   color: #FF453A;
 }
 
+/* Theme Submenu */
+.theme-submenu {
+  margin: 8px 0;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.theme-option {
+  position: relative;
+  padding-left: 40px;
+}
+
+.theme-option.active {
+  background: rgba(123, 104, 238, 0.1);
+  color: var(--accent-primary);
+}
+
+.theme-indicator {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.theme-option:nth-child(1) .theme-indicator {
+  background: linear-gradient(135deg, #7B68EE, #6955E5);
+}
+
+.theme-option:nth-child(2) .theme-indicator {
+  background: #00e5ff;
+  box-shadow: 0 0 4px #00e5ff;
+}
+
+.theme-option:nth-child(3) .theme-indicator {
+  background: #ff0040;
+  box-shadow: 0 0 4px #ff0040;
+}
+
+.checkmark {
+  position: absolute;
+  right: 16px;
+  color: var(--accent-success);
+  font-weight: bold;
+}
+
 .user-details {
   flex: 1;
   min-width: 0;

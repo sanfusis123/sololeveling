@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './components/ThemeProvider';
 import PrivateRoute from './components/PrivateRoute';
 import Layout from './components/Layout';
 
@@ -22,8 +23,8 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        
-        <Routes>
+        <ThemeProvider>
+          <Routes>
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -45,6 +46,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        </ThemeProvider>
       </AuthProvider>
     </Router>
   );

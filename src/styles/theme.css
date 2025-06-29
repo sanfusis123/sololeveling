@@ -4,6 +4,8 @@
 @import './forms-enhanced.css';
 @import './reading-experience.css';
 
+/* Theme files are loaded dynamically via ThemeProvider */
+
 :root {
   /* Dark mode color palette */
   --bg-primary: #121212;

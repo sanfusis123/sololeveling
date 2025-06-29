@@ -1,0 +1,275 @@
+/* Anime Theme 1: Blue Exorcist Style - Dark Blues & Glowing Energy */
+:root[data-theme="anime-blue"] {
+  /* Primary Colors - Deep blues and electric energy */
+  --primary: #1a237e;
+  --primary-dark: #0d1854;
+  --primary-light: #3949ab;
+  --accent-primary: #00e5ff;
+  --accent-secondary: #536dfe;
+  
+  /* Background - Dark mystical depths */
+  --background: #0a0e27;
+  --surface: rgba(13, 24, 84, 0.6);
+  --surface-hover: rgba(25, 35, 110, 0.7);
+  --surface-active: rgba(0, 229, 255, 0.15);
+  
+  /* Text - High contrast anime style */
+  --text-primary: #ffffff;
+  --text-secondary: #b3e5fc;
+  --text-tertiary: #7986cb;
+  
+  /* Magical Glow Effects */
+  --glow-primary: 0 0 30px rgba(0, 229, 255, 0.8);
+  --glow-secondary: 0 0 20px rgba(83, 109, 254, 0.6);
+  --glow-intense: 0 0 40px rgba(0, 229, 255, 1);
+  
+  /* Status Colors - Anime energy style */
+  --success: #00ff88;
+  --danger: #ff1744;
+  --warning: #ffab00;
+  --info: #00e5ff;
+  
+  /* Borders - Energy lines */
+  --border: rgba(0, 229, 255, 0.3);
+  --border-hover: rgba(0, 229, 255, 0.6);
+  
+  /* Shadows - Dramatic anime depth */
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 1);
+  --shadow-glow: 0 0 30px rgba(0, 229, 255, 0.5);
+  
+  /* Gradients - Magical energy flows */
+  --gradient-primary: linear-gradient(135deg, #1a237e 0%, #00e5ff 100%);
+  --gradient-surface: linear-gradient(135deg, rgba(13, 24, 84, 0.9) 0%, rgba(0, 229, 255, 0.1) 100%);
+  --gradient-glow: radial-gradient(circle at center, rgba(0, 229, 255, 0.3) 0%, transparent 70%);
+  
+  /* Special Effects */
+  --animation-glow: glowPulse 2s ease-in-out infinite;
+  --particle-color: #00e5ff;
+}
+
+/* Anime-specific animations */
+@keyframes glowPulse {
+  0%, 100% { 
+    box-shadow: var(--glow-primary), inset 0 0 20px rgba(0, 229, 255, 0.2);
+  }
+  50% { 
+    box-shadow: var(--glow-intense), inset 0 0 30px rgba(0, 229, 255, 0.4);
+  }
+}
+
+@keyframes energyFlow {
+  0% { 
+    background-position: 0% 50%;
+  }
+  100% { 
+    background-position: 100% 50%;
+  }
+}
+
+/* Anime Theme Overrides */
+[data-theme="anime-blue"] {
+  background: var(--background);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background particles */
+[data-theme="anime-blue"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(83, 109, 254, 0.1) 0%, transparent 50%);
+  animation: energyFlow 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Card styling with anime glow */
+[data-theme="anime-blue"] .card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+[data-theme="anime-blue"] .card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--gradient-primary);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+[data-theme="anime-blue"] .card:hover::before {
+  opacity: 1;
+  animation: var(--animation-glow);
+}
+
+[data-theme="anime-blue"] .card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--shadow-lg), var(--glow-intense);
+}
+
+/* Buttons with energy effects */
+[data-theme="anime-blue"] .btn {
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-primary);
+  border: none;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+[data-theme="anime-blue"] .btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+[data-theme="anime-blue"] .btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+[data-theme="anime-blue"] .btn:hover {
+  box-shadow: var(--glow-intense);
+  transform: translateY(-2px);
+}
+
+/* Input fields with anime style */
+[data-theme="anime-blue"] .input {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--border);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+[data-theme="anime-blue"] .input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: var(--glow-primary);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+/* Sidebar with mystical effect */
+[data-theme="anime-blue"] .sidebar {
+  background: linear-gradient(180deg, rgba(13, 24, 84, 0.95) 0%, rgba(10, 14, 39, 0.95) 100%);
+  border-right: 1px solid var(--border);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+}
+
+/* Navigation items with energy indicators */
+[data-theme="anime-blue"] .nav-item {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+[data-theme="anime-blue"] .nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 80%;
+  background: var(--accent-primary);
+  box-shadow: var(--glow-primary);
+  border-radius: 2px;
+}
+
+/* Modal with dramatic anime style */
+[data-theme="anime-blue"] .modal-overlay {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="anime-blue"] .modal-content {
+  background: linear-gradient(135deg, rgba(13, 24, 84, 0.98) 0%, rgba(10, 14, 39, 0.98) 100%);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow-lg), var(--glow-intense);
+}
+
+/* Special text effects */
+[data-theme="anime-blue"] h1,
+[data-theme="anime-blue"] h2,
+[data-theme="anime-blue"] h3 {
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+  position: relative;
+}
+
+/* Stats and numbers with glow */
+[data-theme="anime-blue"] .stat-value {
+  color: var(--accent-primary);
+  text-shadow: var(--glow-primary);
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* Calendar with mystical dates */
+[data-theme="anime-blue"] .calendar-day {
+  transition: all 0.3s ease;
+}
+
+[data-theme="anime-blue"] .calendar-day:hover {
+  background: rgba(0, 229, 255, 0.2);
+  box-shadow: var(--glow-secondary);
+  transform: scale(1.1);
+}
+
+[data-theme="anime-blue"] .calendar-day.has-event {
+  background: var(--gradient-primary);
+  box-shadow: var(--glow-primary);
+}
+
+/* Scrollbar styling */
+[data-theme="anime-blue"] ::-webkit-scrollbar {
+  width: 10px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="anime-blue"] ::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 5px;
+  box-shadow: var(--glow-primary);
+}
+
+[data-theme="anime-blue"] ::-webkit-scrollbar-track {
+  background: rgba(13, 24, 84, 0.3);
+}
+
+/* Loading animation */
+[data-theme="anime-blue"] .loading {
+  color: var(--accent-primary);
+  text-shadow: var(--glow-intense);
+  animation: glowPulse 1s ease-in-out infinite;
+}
+
+/* Chart colors */
+[data-theme="anime-blue"] .chart-primary { color: var(--accent-primary); }
+[data-theme="anime-blue"] .chart-secondary { color: var(--accent-secondary); }
+[data-theme="anime-blue"] .chart-success { color: var(--success); }
+[data-theme="anime-blue"] .chart-danger { color: var(--danger); }

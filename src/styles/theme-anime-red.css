@@ -1,0 +1,451 @@
+/* Anime Theme 2: Dark Dramatic Style - Red & Black Contrasts */
+:root[data-theme="anime-red"] {
+  /* Primary Colors - Deep blacks and crimson reds */
+  --primary: #8b0000;
+  --primary-dark: #4a0000;
+  --primary-light: #dc143c;
+  --accent-primary: #ff0040;
+  --accent-secondary: #ff6b6b;
+  
+  /* Background - Pitch black with subtle gradients */
+  --background: #000000;
+  --surface: rgba(20, 0, 0, 0.8);
+  --surface-hover: rgba(139, 0, 0, 0.2);
+  --surface-active: rgba(255, 0, 64, 0.1);
+  
+  /* Text - High contrast monochrome */
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+  --text-tertiary: #9e9e9e;
+  
+  /* Dramatic Shadow Effects */
+  --glow-primary: 0 0 40px rgba(255, 0, 64, 0.9);
+  --glow-secondary: 0 0 30px rgba(139, 0, 0, 0.7);
+  --glow-intense: 0 0 60px rgba(255, 0, 64, 1), 0 0 120px rgba(255, 0, 64, 0.5);
+  
+  /* Status Colors - Intense variations */
+  --success: #00ff00;
+  --danger: #ff0040;
+  --warning: #ff6b00;
+  --info: #00ffff;
+  
+  /* Borders - Sharp red accents */
+  --border: rgba(255, 0, 64, 0.4);
+  --border-hover: rgba(255, 0, 64, 0.8);
+  
+  /* Shadows - Deep and dramatic */
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.9);
+  --shadow-md: 0 8px 40px rgba(0, 0, 0, 1);
+  --shadow-lg: 0 16px 70px rgba(0, 0, 0, 1);
+  --shadow-glow: 0 0 50px rgba(255, 0, 64, 0.6);
+  
+  /* Gradients - Blood and shadow */
+  --gradient-primary: linear-gradient(135deg, #000000 0%, #8b0000 50%, #ff0040 100%);
+  --gradient-surface: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(139, 0, 0, 0.2) 100%);
+  --gradient-glow: radial-gradient(circle at center, rgba(255, 0, 64, 0.4) 0%, transparent 60%);
+  
+  /* Special Effects */
+  --animation-pulse: bloodPulse 3s ease-in-out infinite;
+  --animation-flicker: powerFlicker 4s linear infinite;
+  --particle-color: #ff0040;
+}
+
+/* Dramatic animations */
+@keyframes bloodPulse {
+  0%, 100% { 
+    filter: brightness(1) contrast(1);
+    box-shadow: var(--glow-primary);
+  }
+  50% { 
+    filter: brightness(1.2) contrast(1.1);
+    box-shadow: var(--glow-intense);
+  }
+}
+
+@keyframes powerFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  95% { opacity: 0.9; }
+  96% { opacity: 1; }
+}
+
+@keyframes redLightning {
+  0%, 100% { 
+    background-position: 0% 50%;
+    filter: brightness(1);
+  }
+  50% { 
+    background-position: 100% 50%;
+    filter: brightness(1.5);
+  }
+}
+
+/* Theme-specific overrides */
+[data-theme="anime-red"] {
+  background: var(--background);
+  position: relative;
+}
+
+/* Animated background with red energy lines */
+[data-theme="anime-red"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 100px,
+      rgba(255, 0, 64, 0.03) 100px,
+      rgba(255, 0, 64, 0.03) 101px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 100px,
+      rgba(255, 0, 64, 0.03) 100px,
+      rgba(255, 0, 64, 0.03) 101px
+    );
+  animation: powerFlicker 10s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Cards with dramatic shadows */
+[data-theme="anime-red"] .card {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 0, 0, 0.8) 100%);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg), inset 0 0 50px rgba(255, 0, 64, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+[data-theme="anime-red"] .card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 0, 64, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+[data-theme="anime-red"] .card:hover::before {
+  opacity: 1;
+}
+
+[data-theme="anime-red"] .card:hover {
+  transform: translateY(-10px) perspective(1000px) rotateX(5deg);
+  box-shadow: 
+    var(--shadow-lg), 
+    var(--glow-intense),
+    0 50px 100px rgba(0, 0, 0, 0.8);
+  border-color: var(--accent-primary);
+}
+
+/* Buttons with power surge effect */
+[data-theme="anime-red"] .btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a0000 0%, #4a0000 100%);
+  border: 1px solid rgba(255, 0, 64, 0.3);
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 0, 64, 0.5);
+}
+
+[data-theme="anime-red"] .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 64, 0.6), transparent);
+  transition: left 0.5s ease;
+}
+
+[data-theme="anime-red"] .btn:hover::before {
+  left: 100%;
+}
+
+[data-theme="anime-red"] .btn:hover {
+  background: linear-gradient(135deg, #4a0000 0%, #8b0000 100%);
+  box-shadow: var(--glow-primary);
+  transform: translateY(-3px) scale(1.05);
+  border-color: var(--accent-primary);
+  animation: var(--animation-pulse);
+}
+
+[data-theme="anime-red"] .btn-primary {
+  background: var(--gradient-primary);
+  border: none;
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+
+[data-theme="anime-red"] .btn-danger {
+  background: linear-gradient(135deg, #ff0040 0%, #cc0033 100%);
+  box-shadow: var(--glow-intense);
+  animation: var(--animation-flicker);
+}
+
+/* Input fields with red underglow */
+[data-theme="anime-red"] .input {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 0, 64, 0.2);
+  border-bottom: 2px solid rgba(255, 0, 64, 0.4);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="anime-red"] .input:focus {
+  border-color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+  box-shadow: 
+    0 10px 20px -10px rgba(255, 0, 64, 0.8),
+    inset 0 -2px 0 var(--accent-primary);
+  background: rgba(255, 0, 64, 0.05);
+}
+
+/* Sidebar with vertical red accent */
+[data-theme="anime-red"] .sidebar {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.98) 0%, rgba(20, 0, 0, 0.95) 100%);
+  border-right: none;
+  box-shadow: none;
+}
+
+[data-theme="anime-red"] .sidebar::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--accent-primary), transparent);
+  animation: redLightning 5s ease-in-out infinite;
+}
+
+/* Navigation items with power indicator */
+[data-theme="anime-red"] .nav-item {
+  position: relative;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+[data-theme="anime-red"] .nav-item:hover {
+  background: rgba(255, 0, 64, 0.1);
+  border-left-color: rgba(255, 0, 64, 0.5);
+}
+
+[data-theme="anime-red"] .nav-item.active {
+  background: rgba(255, 0, 64, 0.15);
+  border-left-color: var(--accent-primary);
+  box-shadow: inset 0 0 30px rgba(255, 0, 64, 0.2);
+}
+
+[data-theme="anime-red"] .nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent-primary);
+  box-shadow: 0 0 20px var(--accent-primary);
+  animation: var(--animation-pulse);
+}
+
+/* Modal with intense backdrop */
+[data-theme="anime-red"] .modal-overlay {
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px) brightness(0.3);
+}
+
+[data-theme="anime-red"] .modal-content {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(20, 0, 0, 0.95) 100%);
+  border: 2px solid var(--border);
+  box-shadow: 
+    var(--shadow-lg), 
+    var(--glow-intense),
+    inset 0 0 100px rgba(255, 0, 64, 0.05);
+  animation: modalPowerUp 0.5s ease-out;
+}
+
+@keyframes modalPowerUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+    filter: brightness(2);
+  }
+  50% {
+    filter: brightness(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: brightness(1);
+  }
+}
+
+/* Text with dramatic effects */
+[data-theme="anime-red"] h1,
+[data-theme="anime-red"] h2,
+[data-theme="anime-red"] h3 {
+  text-shadow: 
+    0 0 30px rgba(255, 0, 64, 0.5),
+    0 0 60px rgba(255, 0, 64, 0.3);
+  position: relative;
+  animation: var(--animation-flicker);
+}
+
+/* Stats with red glow */
+[data-theme="anime-red"] .stat-value {
+  color: var(--accent-primary);
+  text-shadow: var(--glow-primary);
+  font-weight: 900;
+  font-size: 1.4em;
+  letter-spacing: 1px;
+  animation: var(--animation-pulse);
+}
+
+/* Calendar with ominous dates */
+[data-theme="anime-red"] .calendar-day {
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+[data-theme="anime-red"] .calendar-day:hover {
+  background: rgba(255, 0, 64, 0.1);
+  border-color: rgba(255, 0, 64, 0.3);
+  box-shadow: var(--shadow-glow);
+  transform: scale(1.15);
+}
+
+[data-theme="anime-red"] .calendar-day.has-event {
+  background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(255, 0, 64, 0.2) 100%);
+  border-color: var(--border);
+  box-shadow: inset 0 0 20px rgba(255, 0, 64, 0.3);
+}
+
+/* Custom scrollbar */
+[data-theme="anime-red"] ::-webkit-scrollbar {
+  width: 12px;
+  background: #000000;
+}
+
+[data-theme="anime-red"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4a0000, #8b0000);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 0, 64, 0.3);
+  box-shadow: inset 0 0 10px rgba(255, 0, 64, 0.5);
+}
+
+[data-theme="anime-red"] ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Loading animation */
+[data-theme="anime-red"] .loading {
+  color: var(--accent-primary);
+  text-shadow: var(--glow-intense);
+  animation: loadingPower 1s ease-in-out infinite;
+}
+
+@keyframes loadingPower {
+  0%, 100% { 
+    opacity: 0.3;
+    text-shadow: 0 0 20px rgba(255, 0, 64, 0.5);
+  }
+  50% { 
+    opacity: 1;
+    text-shadow: var(--glow-intense);
+  }
+}
+
+/* Special hover effects for interactive elements */
+[data-theme="anime-red"] .interactive:hover {
+  animation: powerSurge 0.3s ease-out;
+}
+
+@keyframes powerSurge {
+  0% { filter: brightness(1) contrast(1); }
+  50% { filter: brightness(1.5) contrast(1.2); }
+  100% { filter: brightness(1) contrast(1); }
+}
+
+/* Main content seamless connection */
+[data-theme="anime-red"] .main-content {
+  background: var(--background);
+  margin-left: 280px;
+  padding: 32px;
+}
+
+/* Layout adjustments for seamless look */
+[data-theme="anime-red"] .layout {
+  background: var(--background);
+}
+
+/* Remove max-width constraints for full-width dramatic effect */
+[data-theme="anime-red"] .dashboard,
+[data-theme="anime-red"] .calendar-page,
+[data-theme="anime-red"] .improvement-log,
+[data-theme="anime-red"] .flashcards-page,
+[data-theme="anime-red"] .learning-materials,
+[data-theme="anime-red"] .diary-page,
+[data-theme="anime-red"] .fun-zone,
+[data-theme="anime-red"] .analytics-page,
+[data-theme="anime-red"] .profile-page,
+[data-theme="anime-red"] .admin-page {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+/* Chart colors with dramatic theme */
+[data-theme="anime-red"] .chart-primary { color: var(--accent-primary); }
+[data-theme="anime-red"] .chart-secondary { color: var(--accent-secondary); }
+[data-theme="anime-red"] .chart-success { color: #00ff00; text-shadow: 0 0 10px #00ff00; }
+[data-theme="anime-red"] .chart-danger { color: var(--danger); text-shadow: var(--glow-primary); }
+
+/* Progress bars with energy effect */
+[data-theme="anime-red"] .progress-bar {
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="anime-red"] .progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: sweep 2s linear infinite;
+}
+
+@keyframes sweep {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}

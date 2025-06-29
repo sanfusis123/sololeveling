@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from './ThemeProvider';
 import './Layout.css';
 
 // Simple icon components
@@ -17,12 +18,15 @@ const LogOut = () => <span>🚪</span>;
 const Menu = () => <span>☰</span>;
 const X = () => <span>✕</span>;
 const Shield = () => <span>🛡️</span>;
+const Palette = () => <span>🎨</span>;
 
 const Layout = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { currentTheme, setTheme, themes } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
 
   // Close dropdown when clicking outside
@@ -112,9 +116,39 @@ const Layout = () => {
                     setUserMenuOpen(false);
                   }}
                 >
-                  <User size={16} />
+                  <User />
                   <span>View Profile</span>
                 </NavLink>
+                
+                <button 
+                  className="dropdown-item" 
+                  onClick={() => {
+                    setThemeMenuOpen(!themeMenuOpen);
+                  }}
+                >
+                  <Palette />
+                  <span>Change Theme</span>
+                </button>
+                
+                {themeMenuOpen && (
+                  <div className="theme-submenu">
+                    {Object.entries(themes).map(([key, theme]) => (
+                      <button
+                        key={key}
+                        className={`dropdown-item theme-option ${currentTheme === key ? 'active' : ''}`}
+                        onClick={() => {
+                          setTheme(key);
+                          setThemeMenuOpen(false);
+                          setUserMenuOpen(false);
+                        }}
+                      >
+                        <span className="theme-indicator"></span>
+                        <span>{theme.name}</span>
+                        {currentTheme === key && <span className="checkmark">✓</span>}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 
                 <button 
                   className="dropdown-item logout-item" 
@@ -123,7 +157,7 @@ const Layout = () => {
                     setUserMenuOpen(false);
                   }}
                 >
-                  <LogOut size={16} />
+                  <LogOut />
                   <span>Logout</span>
                 </button>
               </div>
