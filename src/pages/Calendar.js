@@ -523,7 +523,7 @@ const EventModal = ({ event, selectedDate, onClose, onSave }) => {
         await calendarService.updateEvent(event.id, eventData);
         toast.success('Event updated successfully');
       } else {
-        const response = await calendarService.createEvent(eventData);
+        await calendarService.createEvent(eventData);
         // console.log('Event created response:', response.data);
         toast.success('Event created successfully');
       }
