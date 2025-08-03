@@ -21,7 +21,7 @@
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "theme_color": "#7B68EE",
   "background_color": "#121212",
@@ -32,26 +32,26 @@
       "name": "Add Project",
       "short_name": "New Project",
       "description": "Create a new project",
-      "url": "/projects?action=new",
-      "icons": [{ "src": "icon512.png", "sizes": "192x192" }]
+      "url": "./projects?action=new",
+      "icons": [{ "src": "./icon512.png", "sizes": "192x192" }]
     },
     {
       "name": "Calendar",
       "short_name": "Calendar",
       "description": "View your calendar",
-      "url": "/calendar",
-      "icons": [{ "src": "icon512.png", "sizes": "192x192" }]
+      "url": "./calendar",
+      "icons": [{ "src": "./icon512.png", "sizes": "192x192" }]
     },
     {
       "name": "Skills",
       "short_name": "Skills",
       "description": "Manage your skills",
-      "url": "/skills",
-      "icons": [{ "src": "icon512.png", "sizes": "192x192" }]
+      "url": "./skills",
+      "icons": [{ "src": "./icon512.png", "sizes": "192x192" }]
     }
   ],
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "scope": "/",
+  "scope": "./",
   "lang": "en-US",
   "prefer_related_applications": false
 }

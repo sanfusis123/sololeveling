@@ -47,7 +47,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
-        {/* <InstallPrompt /> */}
+        <InstallPrompt />
         </ThemeProvider>
       </AuthProvider>
     </Router>
