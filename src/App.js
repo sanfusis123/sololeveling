@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './components/ThemeProvider';
 import PrivateRoute from './components/PrivateRoute';
 import Layout from './components/Layout';
+import InstallPrompt from './components/InstallPrompt';
 
 // Pages
 import Login from './pages/Login';
@@ -46,6 +47,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        {/* <InstallPrompt /> */}
         </ThemeProvider>
       </AuthProvider>
     </Router>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PWA Debug Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover { background: #0056b3; }
+        pre { 
+            background: #f8f9fa; 
+            padding: 10px; 
+            border-radius: 5px; 
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>PWA Debug Information</h1>
+    
+    <div id="status"></div>
+    
+    <h2>Actions</h2>
+    <button onclick="checkPWA()">Check PWA Status</button>
+    <button onclick="testInstall()">Test Install</button>
+    <button onclick="checkServiceWorker()">Check Service Worker</button>
+    <button onclick="clearCache()">Clear Cache & Unregister SW</button>
+    
+    <h2>Debug Log</h2>
+    <pre id="log"></pre>
+
+    <script>
+        const log = (msg, type = 'info') => {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.textContent += `[${timestamp}] ${type.toUpperCase()}: ${msg}\n`;
+            console.log(msg);
+        };
+
+        const setStatus = (msg, type = 'info') => {
+            const statusEl = document.getElementById('status');
+            statusEl.innerHTML += `<div class="status ${type}">${msg}</div>`;
+        };
+
+        // Check PWA requirements
+        async function checkPWA() {
+            log('Starting PWA check...', 'info');
+            
+            // Check HTTPS
+            if (location.protocol === 'https:' || location.hostname === 'localhost') {
+                setStatus('✅ HTTPS/localhost check passed', 'success');
+            } else {
+                setStatus('❌ Not served over HTTPS', 'error');
+            }
+
+            // Check manifest
+            try {
+                const manifestLink = document.querySelector('link[rel="manifest"]');
+                if (manifestLink) {
+                    const response = await fetch(manifestLink.href);
+                    const manifest = await response.json();
+                    setStatus('✅ Manifest found and valid', 'success');
+                    log('Manifest: ' + JSON.stringify(manifest, null, 2));
+                } else {
+                    setStatus('❌ No manifest link found', 'error');
+                }
+            } catch (e) {
+                setStatus('❌ Manifest error: ' + e.message, 'error');
+            }
+
+            // Check service worker
+            if ('serviceWorker' in navigator) {
+                setStatus('✅ Service Worker API supported', 'success');
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                if (registrations.length > 0) {
+                    setStatus(`✅ ${registrations.length} Service Worker(s) registered`, 'success');
+                    registrations.forEach((reg, i) => {
+                        log(`SW ${i}: ${reg.scope} - ${reg.active ? 'active' : 'not active'}`);
+                    });
+                } else {
+                    setStatus('⚠️ No Service Workers registered', 'warning');
+                }
+            } else {
+                setStatus('❌ Service Worker not supported', 'error');
+            }
+
+            // Check install prompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                setStatus('✅ Install prompt available!', 'success');
+                log('beforeinstallprompt event fired');
+                window.deferredPrompt = e;
+            });
+
+            // Check if already installed
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                setStatus('✅ App is already installed', 'success');
+            }
+
+            // Check icons
+            try {
+                const manifest = await fetch('/manifest.json').then(r => r.json());
+                for (const icon of manifest.icons || []) {
+                    try {
+                        const iconResponse = await fetch(icon.src);
+                        if (iconResponse.ok) {
+                            log(`✅ Icon found: ${icon.src} (${icon.sizes})`);
+                        } else {
+                            log(`❌ Icon missing: ${icon.src}`, 'error');
+                        }
+                    } catch (e) {
+                        log(`❌ Icon error: ${icon.src} - ${e.message}`, 'error');
+                    }
+                }
+            } catch (e) {
+                log('Could not check icons: ' + e.message, 'error');
+            }
+        }
+
+        // Test install
+        async function testInstall() {
+            if (window.deferredPrompt) {
+                log('Showing install prompt...');
+                window.deferredPrompt.prompt();
+                const result = await window.deferredPrompt.userChoice;
+                log(`User choice: ${result.outcome}`);
+            } else {
+                log('No install prompt available. The app might already be installed or doesn\'t meet PWA criteria.', 'warning');
+            }
+        }
+
+        // Check service worker
+        async function checkServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.register('/service-worker.js');
+                    log('Service Worker registered successfully', 'success');
+                    log(`Scope: ${registration.scope}`);
+                } catch (error) {
+                    log('Service Worker registration failed: ' + error.message, 'error');
+                }
+            }
+        }
+
+        // Clear cache and unregister
+        async function clearCache() {
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (const registration of registrations) {
+                    await registration.unregister();
+                    log('Service Worker unregistered');
+                }
+            }
+            
+            if ('caches' in window) {
+                const cacheNames = await caches.keys();
+                for (const cacheName of cacheNames) {
+                    await caches.delete(cacheName);
+                    log(`Cache deleted: ${cacheName}`);
+                }
+            }
+            
+            log('All caches cleared and service workers unregistered', 'success');
+        }
+
+        // Auto-check on load
+        window.addEventListener('load', () => {
+            checkPWA();
+        });
+    </script>
+</body>
+</html>

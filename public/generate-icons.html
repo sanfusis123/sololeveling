@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator for PWA</title>
+    <style>
+        body {
+            background: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        canvas {
+            border: 1px solid #333;
+            margin: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: #7B68EE;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #6955E5;
+        }
+    </style>
+</head>
+<body>
+    <h1>PWA Icon Generator</h1>
+    <p>This will generate the required icons for your PWA</p>
+    
+    <canvas id="canvas-512" width="512" height="512"></canvas>
+    <canvas id="canvas-192" width="192" height="192"></canvas>
+    
+    <button onclick="downloadIcons()">Download Icons</button>
+    
+    <script>
+        // Draw icon for 512x512
+        function drawIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#7B68EE');
+            gradient.addColorStop(1, '#5856D6');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Add rounded corners
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.2);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Center circle
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size * 0.3, 0, 2 * Math.PI);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fill();
+            
+            // Icon symbol (chart/growth icon)
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = size * 0.04;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Draw chart bars
+            const barWidth = size * 0.08;
+            const barSpacing = size * 0.12;
+            const startX = size * 0.3;
+            const baseY = size * 0.7;
+            
+            // Bar 1
+            ctx.fillStyle = 'white';
+            ctx.fillRect(startX, baseY - size * 0.15, barWidth, size * 0.15);
+            
+            // Bar 2
+            ctx.fillRect(startX + barSpacing, baseY - size * 0.25, barWidth, size * 0.25);
+            
+            // Bar 3
+            ctx.fillRect(startX + barSpacing * 2, baseY - size * 0.35, barWidth, size * 0.35);
+            
+            // Growth arrow
+            ctx.beginPath();
+            ctx.moveTo(size * 0.25, size * 0.45);
+            ctx.lineTo(size * 0.6, size * 0.25);
+            ctx.lineTo(size * 0.75, size * 0.3);
+            ctx.stroke();
+            
+            // Arrow head
+            ctx.beginPath();
+            ctx.moveTo(size * 0.6, size * 0.25);
+            ctx.lineTo(size * 0.55, size * 0.3);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(size * 0.6, size * 0.25);
+            ctx.lineTo(size * 0.6, size * 0.32);
+            ctx.stroke();
+            
+            // Add text
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.08}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('DEV', size/2, size * 0.85);
+        }
+        
+        // Draw both icons
+        drawIcon(document.getElementById('canvas-512'), 512);
+        drawIcon(document.getElementById('canvas-192'), 192);
+        
+        // Download function
+        function downloadIcons() {
+            // Download 512x512
+            const canvas512 = document.getElementById('canvas-512');
+            const link512 = document.createElement('a');
+            link512.download = 'icon-512.png';
+            link512.href = canvas512.toDataURL();
+            link512.click();
+            
+            // Download 192x192
+            setTimeout(() => {
+                const canvas192 = document.getElementById('canvas-192');
+                const link192 = document.createElement('a');
+                link192.download = 'icon-192.png';
+                link192.href = canvas192.toDataURL();
+                link192.click();
+            }, 500);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+.install-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  animation: slideUp 0.3s ease-out;
+  max-width: 90vw;
+  width: 400px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+.install-prompt-content {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.install-prompt-icon {
+  font-size: 48px;
+  flex-shrink: 0;
+}
+
+.install-prompt-text {
+  flex: 1;
+}
+
+.install-prompt-text h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.install-prompt-text p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.install-prompt-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.install-prompt-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.install-prompt-button.install {
+  background: var(--accent-primary);
+  color: white;
+}
+
+.install-prompt-button.install:hover {
+  background: var(--accent-primary-hover);
+  transform: scale(1.05);
+}
+
+.install-prompt-button.dismiss {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+}
+
+.install-prompt-button.dismiss:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .install-prompt {
+    bottom: 10px;
+    width: calc(100vw - 20px);
+    max-width: none;
+  }
+
+  .install-prompt-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .install-prompt-actions {
+    flex-direction: row;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .install-prompt-button {
+    flex: 1;
+  }
+}
