@@ -3,6 +3,7 @@
 @import './modal.css';
 @import './forms-enhanced.css';
 @import './reading-experience.css';
+@import './select-fix.css';
 
 /* Theme files are loaded dynamically via ThemeProvider */
 

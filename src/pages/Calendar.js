@@ -539,6 +539,8 @@ const EventModal = ({ event, selectedDate, onClose, onSave, showDeleteConfirm, s
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
+  const [selectedDates, setSelectedDates] = useState(event ? [new Date(event.start_time)] : [selectedDate]);
+  const [isMultiDay, setIsMultiDay] = useState(false);
   
   // Ensure selectedDate is a valid Date object
   const getDefaultStartTime = () => {
@@ -622,28 +624,62 @@ const EventModal = ({ event, selectedDate, onClose, onSave, showDeleteConfirm, s
         return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
       };
       
-      // Convert Date objects to local ISO strings for backend
-      const eventData = {
-        ...formData,
-        start_time: toLocalISOString(formData.start_time),
-        end_time: toLocalISOString(formData.end_time)
-      };
-      
-      // console.log('Saving event with times:', {
-      //   start: eventData.start_time,
-      //   end: eventData.end_time,
-      //   startLocal: formData.start_time.toString(),
-      //   endLocal: formData.end_time.toString(),
-      //   startHours: formData.start_time.getHours(),
-      //   endHours: formData.end_time.getHours()
-      // });
-      
       if (event?.id) {
+        // Update single event
+        const eventData = {
+          ...formData,
+          start_time: toLocalISOString(formData.start_time),
+          end_time: toLocalISOString(formData.end_time)
+        };
         await calendarService.updateEvent(event.id, eventData);
         toast.success('Event updated successfully');
+      } else if (isMultiDay && selectedDates.length > 0) {
+        // Create events for multiple days
+        const startHours = formData.start_time.getHours();
+        const startMinutes = formData.start_time.getMinutes();
+        const endHours = formData.end_time.getHours();
+        const endMinutes = formData.end_time.getMinutes();
+        
+        let successCount = 0;
+        let failCount = 0;
+        
+        for (const date of selectedDates) {
+          try {
+            const dayStartTime = new Date(date);
+            dayStartTime.setHours(startHours, startMinutes, 0, 0);
+            
+            const dayEndTime = new Date(date);
+            dayEndTime.setHours(endHours, endMinutes, 0, 0);
+            
+            const eventData = {
+              ...formData,
+              start_time: toLocalISOString(dayStartTime),
+              end_time: toLocalISOString(dayEndTime)
+            };
+            
+            await calendarService.createEvent(eventData);
+            successCount++;
+          } catch (error) {
+            failCount++;
+            console.error('Failed to create event for date:', date, error);
+          }
+        }
+        
+        if (successCount > 0 && failCount === 0) {
+          toast.success(`Created ${successCount} event${successCount > 1 ? 's' : ''} successfully`);
+        } else if (successCount > 0 && failCount > 0) {
+          toast.warning(`Created ${successCount} event${successCount > 1 ? 's' : ''}, ${failCount} failed`);
+        } else {
+          toast.error('Failed to create events');
+        }
       } else {
+        // Create single event
+        const eventData = {
+          ...formData,
+          start_time: toLocalISOString(formData.start_time),
+          end_time: toLocalISOString(formData.end_time)
+        };
         await calendarService.createEvent(eventData);
-        // console.log('Event created response:', response.data);
         toast.success('Event created successfully');
       }
       onSave();
@@ -683,33 +719,145 @@ const EventModal = ({ event, selectedDate, onClose, onSave, showDeleteConfirm, s
           </div>
 
           <div className="form-group">
-            <label>Date</label>
-            <input
-              type="date"
-              className="input"
-              value={(() => {
-                const date = formData.start_time;
-                return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-              })()}
-              onChange={e => {
-                const [year, month, day] = e.target.value.split('-').map(Number);
+            <label>
+              <input
+                type="checkbox"
+                checked={isMultiDay}
+                onChange={e => {
+                  setIsMultiDay(e.target.checked);
+                  if (!e.target.checked) {
+                    setSelectedDates([selectedDate]);
+                  }
+                }}
+                style={{ marginRight: '8px' }}
+              />
+              Create event for multiple days
+            </label>
+          </div>
+
+          <div className="form-group">
+            <label>Date{isMultiDay ? 's' : ''}</label>
+            {!isMultiDay ? (
+              <input
+                type="date"
+                className="input"
+                value={(() => {
+                  const date = formData.start_time;
+                  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+                })()}
+                onChange={e => {
+                  const [year, month, day] = e.target.value.split('-').map(Number);
+                  
+                  // Update start time
+                  const newStartDate = new Date(formData.start_time);
+                  newStartDate.setFullYear(year, month - 1, day);
+                  
+                  // Update end time to same date
+                  const newEndDate = new Date(formData.end_time);
+                  newEndDate.setFullYear(year, month - 1, day);
+                  
+                  setFormData({
+                    ...formData, 
+                    start_time: newStartDate,
+                    end_time: newEndDate
+                  });
+                  setSelectedDates([newStartDate]);
+                }}
+                required
+              />
+            ) : (
+              <div>
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+                  <input
+                    type="date"
+                    className="input"
+                    style={{ flex: 1 }}
+                    placeholder="Select date to add"
+                    onChange={e => {
+                      if (!e.target.value) return;
+                      
+                      try {
+                        const [year, month, day] = e.target.value.split('-').map(Number);
+                        const newDate = new Date(year, month - 1, day);
+                        
+                        // Check if date already exists
+                        const dateExists = selectedDates.some(d => 
+                          format(d, 'yyyy-MM-dd') === format(newDate, 'yyyy-MM-dd')
+                        );
+                        
+                        if (!dateExists) {
+                          setSelectedDates([...selectedDates, newDate].sort((a, b) => a - b));
+                          // Clear the input after successful addition
+                          e.target.value = '';
+                        } else {
+                          // Don't show warning, just silently ignore
+                          e.target.value = '';
+                        }
+                      } catch (error) {
+                        console.error('Error adding date:', error);
+                        e.target.value = '';
+                      }
+                    }}
+                  />
+                </div>
                 
-                // Update start time
-                const newStartDate = new Date(formData.start_time);
-                newStartDate.setFullYear(year, month - 1, day);
-                
-                // Update end time to same date
-                const newEndDate = new Date(formData.end_time);
-                newEndDate.setFullYear(year, month - 1, day);
-                
-                setFormData({
-                  ...formData, 
-                  start_time: newStartDate,
-                  end_time: newEndDate
-                });
-              }}
-              required
-            />
+                {selectedDates.length > 0 && (
+                  <div style={{ 
+                    border: '1px solid var(--border-default)',
+                    borderRadius: '8px',
+                    padding: '8px',
+                    backgroundColor: 'var(--bg-elevated)',
+                    maxHeight: '120px',
+                    overflowY: 'auto'
+                  }}>
+                    <div style={{ 
+                      marginBottom: '6px', 
+                      fontSize: '13px',
+                      color: 'var(--text-secondary)'
+                    }}>
+                      Selected dates ({selectedDates.length}):
+                    </div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {selectedDates.map((date, index) => (
+                        <div key={index} style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          padding: '4px 8px',
+                          backgroundColor: 'rgba(77, 171, 247, 0.1)',
+                          border: '1px solid rgba(77, 171, 247, 0.3)',
+                          borderRadius: '6px',
+                          fontSize: '13px',
+                          gap: '6px'
+                        }}>
+                          <span>{format(date, 'MMM d')}</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (selectedDates.length > 1) {
+                                setSelectedDates(selectedDates.filter((_, i) => i !== index));
+                              } else {
+                                toast.error('Must have at least one date selected');
+                              }
+                            }}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: '#ef5350',
+                              cursor: 'pointer',
+                              padding: '0',
+                              fontSize: '16px',
+                              lineHeight: '1'
+                            }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="form-row">

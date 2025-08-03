@@ -1,0 +1,86 @@
+/* Fix for select dropdown visibility */
+select {
+  /* Ensure select has proper background */
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+/* Fix for option elements inside select */
+select option {
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  padding: 8px;
+}
+
+/* Hover state for options */
+select option:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Selected/focused option */
+select option:checked,
+select option:focus {
+  background-color: var(--accent-primary);
+  color: white;
+}
+
+/* Disabled options */
+select option:disabled {
+  color: var(--text-tertiary);
+  background-color: var(--bg-secondary);
+}
+
+/* Firefox specific fixes */
+@-moz-document url-prefix() {
+  select option {
+    background-color: var(--bg-elevated) !important;
+    color: var(--text-primary) !important;
+  }
+  
+  select option:hover,
+  select option:focus,
+  select option:checked {
+    background-color: var(--accent-primary) !important;
+    color: white !important;
+  }
+}
+
+/* Webkit specific fixes (Chrome, Safari, Edge) */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  select option {
+    background-color: var(--bg-elevated);
+    color: var(--text-primary);
+  }
+  
+  select option:hover,
+  select option:focus,
+  select option:checked {
+    background-color: var(--accent-primary);
+    color: white;
+  }
+}
+
+/* Additional fixes for dark themes */
+.theme-anime-blue select option,
+.theme-anime-red select option {
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.theme-anime-blue select option:hover,
+.theme-anime-blue select option:focus,
+.theme-anime-blue select option:checked,
+.theme-anime-red select option:hover,
+.theme-anime-red select option:focus,
+.theme-anime-red select option:checked {
+  background-color: var(--accent-primary);
+  color: white;
+}
+
+/* Ensure contrast in all themes */
+select optgroup {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
